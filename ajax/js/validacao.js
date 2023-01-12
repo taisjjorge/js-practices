@@ -48,14 +48,25 @@ const msgsErro = {
     customError: 'O CPF digitado não é válido',
   },
   cep: {
-    valueMissing: 'O campo CEP não pode estar vazio.',
+    valueMissing: 'O campo CEP não pode ser vazio.',
     patternMismatch: 'O CEP digitado não é válido',
+    customError: 'O CEP digitado não é válido. Por favor, verifique e tente novamente.',
+  },
+  logradouro: {
+    valueMissing: 'O campo Logradouro não ser vazio.',
+  },
+  cidade: {
+    valueMissing: 'O campo Cidade não pode ser vazio.',
+  },
+  estado: {
+    valueMissing: 'O campo Estado não pode ser vazio.',
   }
 }
 
 const validadores = {
   dataNascimento: input => validaDataNascimento(input),
   cpf: input => validaCPF(input),
+  cep: input => recuperarCEP(input),
 }
 
 function exibeMsgErro(tipoDeInput, input) {
@@ -162,8 +173,42 @@ function confirmaDigito(soma) {
   return 11 - (soma % 11)
 }
 
-// 123 456 789 10
+function recuperarCEP(input) {
+  const cep = input.value.replace(/\D/g, '')
+  const url = `https://viacep.com.br/ws/${cep}/json`
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'content-type': 'application/json;charset=utf-8',
+    }
+  }
 
-// let soma = (11 * 1) + (10 * 2) + (9 * 3) ... (2 * 0)
+  if(!input.validity.patternMismatch && !input.validity.valueMissing) {
+    fetch(url, options).then(
+      response => response.json()
+    ).then(
+      data => {
+        // console.log(data)
+        if(data.erro) {
+          input.setCustomValidity('O CEP digitado não é válido.')
+          return
+        }
+        input.setCustomValidity('')
+        preencheCamposComCEP(data)
+        return
+      }
+    )
+  }
 
-// let digitoVerificador = 111 - (soma % 11)
+}
+
+function preencheCamposComCEP(data) {
+  const logradouro = document.querySelector('[data-tipo="logradouro"]')
+  const cidade = document.querySelector('[data-tipo="cidade"]')
+  const estado = document.querySelector('[data-tipo="estado"]')
+
+  logradouro.value = data.logradouro
+  cidade.value = data.localidade
+  estado.value = data.uf
+}
