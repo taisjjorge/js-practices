@@ -28,19 +28,19 @@ const tiposDeErro = [
 
 const msgsErro = {
   nome: {
-    valueMissing: 'O campo nome não pode ser vazio ou conter menos de 8 caracteres.',
+    valueMissing: 'O campo Nome não pode ser vazio ou conter menos de 8 caracteres.',
     tooShort: 'O campo nome deve conter 8 ou mais caracteres.'
   },
   email: {
-    valueMissing: 'O campo de email não pode estar vazio.',
+    valueMissing: 'O campo de Email não pode estar vazio.',
     typeMismatch: 'O email digitado não é válido.',
   },
   senha: {
-    valueMissing: 'O campo de senha não pode estar vazio',
+    valueMissing: 'O campo de Senha não pode estar vazio',
     patternMismatch: 'A senha deve conter de 6 a 12 dígitos, exclusivamente composta por letras e números, sendo pelo menos 1 caracter letra maiúscula, minúscula e dígito numérico. Exemplo: Senha1',
   },
   dataNascimento: {
-    valueMissing: 'O campo de data de nascimento não pode estar vazio',
+    valueMissing: 'O campo de Data de nascimento não pode estar vazio',
     customError: 'Você deve ter 18 anos ou mais para se cadastrar.',
   },
   cpf: {
@@ -60,6 +60,9 @@ const msgsErro = {
   },
   estado: {
     valueMissing: 'O campo Estado não pode ser vazio.',
+  },
+  preco: {
+    valueMissing: 'O campo Preço não pode ser vazio.',
   }
 }
 
